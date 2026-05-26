@@ -1,0 +1,177 @@
+{
+  "name": "output-of-preprocessing",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -48,
+        -16
+      ],
+      "id": "3819efff-b8e8-493c-8489-d65f4be14547",
+      "name": "When chat message received",
+      "webhookId": "***********"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        176,
+        -16
+      ],
+      "id": "08710bd1-cee8-47b2-8afe-5507f7272e22",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        48,
+        192
+      ],
+      "id": "69ad1f14-fb8c-492e-85ec-f011a794c037",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YIrargOlV9d1ayZP",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        192,
+        192
+      ],
+      "id": "9749b1db-c61b-46b7-b972-900e5f74089b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "=You are an intelligent AI assistant for analyzing uploaded recruitment and HR documents.\n\nYour job is to answer user questions strictly using the retrieved document context.\n\nRules:\n- Search the document carefully before answering.\n- Return accurate and direct answers.\n- Summarize information naturally.\n- Mention salary, fees, contact numbers, qualifications, and job roles clearly when asked.\n- If the document contains suspicious hiring patterns such as upfront payment requests, unrealistic salary claims, or vague company details, mention them as potential warning signs.\n- Never invent missing details.\n- If the answer does not exist in the document, say:\n  \"The document does not contain this information.\"\n\nDocument Context:\n{{ $json.context }}\n\nQuestion:\n{{ $json.question }}\n\nResponse:",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "akki-rag-agent",
+          "mode": "list",
+          "cachedResultName": "akki-rag-agent"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        224
+      ],
+      "id": "1325a023-1e1c-4fe2-ac61-63e3aa9e6164",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "Dj6qVsHosfP73IHC",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        656,
+        352
+      ],
+      "id": "08c0528c-a409-4b51-8069-9890913ec909",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YIrargOlV9d1ayZP",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fe763f2c-5f15-4816-baba-d2c7b12c52ad",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "***************************************************"
+  },
+  "id": "HGyeiYk0CS1h2PWu",
+  "tags": []
+}
