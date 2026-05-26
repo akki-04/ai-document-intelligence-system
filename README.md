@@ -1,3 +1,35 @@
+***Feature***
+## Features
+
+- Automated PDF ingestion from Google Drive
+- AI-powered document querying
+- Gemini embeddings integration
+- Pinecone vector database support
+- Retrieval-Augmented Generation (RAG)
+- Conversational AI agent
+- Smart document chunking
+- Recruitment/fraud document analysis
+
+
+***TechStack***
+## Tech Stack
+
+- n8n
+- Google Gemini API
+- Pinecone Vector Database
+- LangChain
+- Google Drive API
+
+  ***Setup Instruction***
+  ## Setup
+
+1. Clone the repository
+2. Import workflows into n8n
+3. Configure API credentials
+4. Create Pinecone index
+5. Upload PDF documents
+6. Start querying documents
+
 ***screenshots***
 
 ****Workflow****
